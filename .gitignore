@@ -1,0 +1,83 @@
+# ==============================
+# LOG FILES
+# ==============================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==============================
+# NODE / FRONTEND
+# ==============================
+node_modules
+dist
+dist-ssr
+*.local
+.vite
+coverage
+
+# ==============================
+# PYTHON
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python environment files
+.env
+.env.*
+
+# ==============================
+# DATABASE
+# ==============================
+*.db
+*.sqlite
+*.sqlite3
+
+# If you specifically use this:
+log_analytics.db
+
+# ==============================
+# GENERATED REPORTS
+# ==============================
+data/reports/
+*.txt
+
+# ==============================
+# SYSTEM FILES
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# IDE / EDITOR
+# ==============================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# ==============================
+# TEST / CACHE
+# ==============================
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# ==============================
+# BUILD ARTIFACTS
+# ==============================
+build/
