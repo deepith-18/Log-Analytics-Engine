@@ -6,7 +6,7 @@ A real-time log monitoring and analytics system built using **FastAPI**, **React
 
 ## 📌 Project Overview
 
-The **Log Analytics Engine** monitors an `access.log` file in real time. It utilizes an asynchronous background task to parse new log entries and store them in a SQLite database. 
+The **Log Analytics Engine** monitors an `access.log` file in real time. It utilizes an asynchronous background task to parse new log entries and store them in a SQLite database.
 
 **Key Capabilities:**
 - 📡 **Live Streaming:** Pushes new log entries to the frontend via WebSockets.
@@ -18,63 +18,38 @@ The **Log Analytics Engine** monitors an `access.log` file in real time. It util
 
 ## 🏗 System Architecture
 
-```mermaid
-graph TD
-    User[User / Browser]
-    LogFile[access.log]
-    
-    subgraph Frontend [React + Vite]
-        UI[Dashboard UI]
-        WS_Client[WebSocket Client]
-        API_Client[Fetch API]
-    end
+The system follows a uni-directional data flow for logging and a bi-directional flow for the dashboard:
 
-    subgraph Backend [FastAPI]
-        API[REST Endpoints]
-        WS_Server[WebSocket Endpoint]
-        BgTask[Async Tail Task]
-        DB[(SQLite Database)]
-    end
+1.  **Log Generation**: Server writes to `access.log`.
+2.  **Background Task**: Python async task tails the file, parses lines, and saves to SQLite.
+3.  **WebSocket Broadcast**: The backend immediately pushes the new data to connected clients.
+4.  **Frontend Update**: React receives the data and updates the UI without refreshing.
 
-    User --> UI
-    UI --> API_Client
-    UI --> WS_Client
-    
-    API_Client --> API
-    WS_Client <--> WS_Server
-    
-    BgTask -->|Monitor & Parse| LogFile
-    BgTask -->|Insert| DB
-    BgTask -->|Broadcast| WS_Server
-    API -->|Query Stats| DB
-    API -->|Generate File| User
+**Flow:**
+`[access.log]` → `[FastAPI Background Task]` → `[SQLite]` + `[WebSocket]` → `[React Frontend]`
 
-📦 Technologies Used
-Backend
+---
 
-    Framework: FastAPI
+## 📦 Technologies Used
 
-    Server: Uvicorn
+### Backend
+- **Framework:** FastAPI
+- **Server:** Uvicorn
+- **Database:** SQLite3
+- **Concurrency:** Python AsyncIO
+- **Protocol:** WebSockets
 
-    Database: SQLite3
+### Frontend
+- **Framework:** React.js
+- **Build Tool:** Vite
+- **Styling:** CSS Modules / Standard CSS
+- **State Management:** React Hooks
 
-    Concurrency: Python AsyncIO
+---
 
-    Protocol: WebSockets
+## ⚙️ Backend Structure
 
-Frontend
-
-    Framework: React.js
-
-    Build Tool: Vite
-
-    Styling: CSS Modules / Standard CSS
-
-    State Management: React Hooks
-
-⚙️ Backend Structure
-code Text
-
+```text
 backend/
 │
 ├── main.py             # Entry point (API, WebSocket, DB, Tailing logic)
